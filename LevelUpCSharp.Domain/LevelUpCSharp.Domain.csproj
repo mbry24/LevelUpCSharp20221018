@@ -9,4 +9,8 @@
     <ProjectReference Include="..\LevelUpCSharp.Tools\LevelUpCSharp.Tools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="diagrams\" />
+  </ItemGroup>
+
 </Project>
