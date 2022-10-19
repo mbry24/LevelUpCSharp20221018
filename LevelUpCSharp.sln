@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevelUpCSharp.Tools", "Leve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevelUpCSharp.Linq.Exercises", "LevelUpCSharp.Linq.Exercises\LevelUpCSharp.Linq.Exercises.csproj", "{E3344662-A520-44F3-8748-5BE35728015B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevelUpCSharp.Concurrency", "LevelUpCSharp.Concurrency\LevelUpCSharp.Concurrency.csproj", "{8C6A1D18-564C-4ADA-8D42-CF084041E4D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E3344662-A520-44F3-8748-5BE35728015B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3344662-A520-44F3-8748-5BE35728015B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3344662-A520-44F3-8748-5BE35728015B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C6A1D18-564C-4ADA-8D42-CF084041E4D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C6A1D18-564C-4ADA-8D42-CF084041E4D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C6A1D18-564C-4ADA-8D42-CF084041E4D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C6A1D18-564C-4ADA-8D42-CF084041E4D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
