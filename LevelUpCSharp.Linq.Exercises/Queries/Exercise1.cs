@@ -16,7 +16,7 @@ namespace LevelUpCSharp.Linq.Queries
 			IEnumerable<Person> allPersons = new[] {new Employee(), new Person(), new Employee()};
 		
 			// act, get all persons that are employees
-			var allEmployes = allPersons;
+			var allEmployes = allPersons.OfType<Employee>();
 
 			// assert
 			Assert.AreEqual(2, allEmployes.Count());
