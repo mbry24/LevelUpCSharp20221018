@@ -3,12 +3,9 @@ using LevelUpCSharp.Products;
 
 namespace LevelUpCSharp.Production.Ingredients
 {
-	internal class Cheese : IGarnish, IKeyIngredient
+	internal class Pork : IKeyIngredient
 	{
 		public DateTime ExpDate { get; }
-
-		public string Name { get; }
-
-		public SandwichKind Kind => SandwichKind.Cheese;
+		public SandwichKind Kind => SandwichKind.Pork;
 	}
 }
