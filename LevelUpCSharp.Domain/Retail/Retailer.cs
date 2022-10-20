@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using LevelUpCSharp.Collections;
 using LevelUpCSharp.Products;
+using Newtonsoft.Json;
 
 namespace LevelUpCSharp.Retail
 {
@@ -54,6 +57,30 @@ namespace LevelUpCSharp.Retail
 		        var summary = PackImpl(package, deliver);
 		        OnPacked(summary);
 	        });
+        }
+
+        public void Pickup()
+        {
+	        try
+	        {
+		        IEnumerable<Sandwich> sandwiches;
+
+		        using (var connection = BuildConnection())
+		        {
+			        using (var stream = connection.GetStream())
+			        {
+				        SendCommand(stream);
+
+				        sandwiches = ReadResponse(stream);
+			        }
+		        }
+
+		        Pack(sandwiches, "remote");
+
+	        }
+	        catch (SocketException)
+	        {
+	        }
         }
 
         protected virtual void OnPacked(PackingSummary summary)
@@ -114,5 +141,28 @@ namespace LevelUpCSharp.Retail
 	        PopulateRack(package);
 	        return ComputeReport(package, deliver);
         }
+
+        #region networking
+        private TcpClient BuildConnection()
+        {
+	        throw new NotImplementedException();
+        }
+
+        private IEnumerable<Sandwich> ReadResponse(NetworkStream stream)
+        {
+	        using (var sr = new StreamReader(stream))
+	        {
+		        using (var jsonReader = new JsonTextReader(sr))
+		        {
+			        return new JsonSerializer().Deserialize<IEnumerable<Sandwich>>(jsonReader);
+		        }
+	        }
+        }
+
+        private void SendCommand(NetworkStream stream)
+        {
+	        throw new NotFiniteNumberException();
+        }
+        #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace LevelUpCSharp.Collections
+﻿namespace LevelUpCSharp.Products
 {
 	public interface IKindable<TKey>
 	{
