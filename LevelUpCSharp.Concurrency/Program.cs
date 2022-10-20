@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace LevelUpCSharp.Concurrency
 {
@@ -10,6 +12,8 @@ namespace LevelUpCSharp.Concurrency
 
         static void Main(string[] args)
         {
+	        //TasksDemo();
+	        //return;
             var a = new Thread(WorkA);
             var b = new Thread(WorkB);
             var vault = new Vault<int>();
@@ -45,6 +49,33 @@ namespace LevelUpCSharp.Concurrency
 		        var get = vault.Get();
 		        Console.WriteLine("[A] get:" + get);
 	        }
+        }
+
+        private static async void TasksDemo()
+        {
+	        int value = await DoWork();
+	        var vaulue2 = DoWork2();
+            var x = value + vaulue2;
+
+        }
+
+        private static int DoWork2()
+        {
+            Thread.Sleep(7 * 1000);
+	        return 8;
+        }
+
+        private static void TasksDemo2()
+        {
+	        Task<int> valueTask = DoWork();
+	        var vaulue2 = DoWork2();
+	        var value = valueTask.Result;
+            var x = value + vaulue2;
+        }
+
+        private static async Task<int> DoWork()
+        {
+	        return await Task.Run(() => (int) 5);
         }
     }
 }
