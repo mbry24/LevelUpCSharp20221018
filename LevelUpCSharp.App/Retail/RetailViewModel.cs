@@ -38,7 +38,7 @@ namespace LevelUpCSharp.Retail
         private void OnPurchase(DateTimeOffset time, Sandwich product)
         {
             _lines[product.Kind].Reduce();
-            Logs.Add($"{time} purchase {product.Kind}");
+            Log($"{time} purchase {product.Kind}");
         }
 
         private void OnPacked(PackingSummary summary)
@@ -46,7 +46,15 @@ namespace LevelUpCSharp.Retail
             summary.Positions.ForEach(item => _lines[item.Kind].TopUp(item.Added));
 
             /* add total number of added items to log statement */
-            Logs.Add($"{summary.TimeStamp} topped up, {summary.Vendor}.");
+            Log($"{summary.TimeStamp} topped up, {summary.Vendor}.");
+        }
+
+        private void Log(string message)
+        {
+	        App.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+	        {
+		        Logs.Add(message);
+	        });
         }
     }
 }

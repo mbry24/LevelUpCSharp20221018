@@ -21,7 +21,8 @@ namespace LevelUpCSharp.Consumption
 
         private async void BuyAndEat(SandwichKind kind)
         {
-            var purchase = Retailer.Instance.Sell(kind);
+            var purchase = await Retailer.Instance.SellAsync(kind);
+			
             if (purchase.Fail)
             {
                 return;

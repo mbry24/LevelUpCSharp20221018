@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using LevelUpCSharp.Collections;
 using LevelUpCSharp.Products;
 
@@ -32,23 +33,27 @@ namespace LevelUpCSharp.Retail
 
         public Result<Sandwich> Sell(SandwichKind kind)
         {
-	        var dontHave = !_shelf.Contains(kind);
-            if (dontHave)
-            {
-                return Result<Sandwich>.Failed();
-            }
+            return SellImpl(kind);
+        }
 
-            var sandwich = _shelf.Get(kind);
-            OnPurchase(DateTimeOffset.Now, sandwich);
-            return sandwich.AsSuccess();
+        public Task<Result<Sandwich>> SellAsync(SandwichKind kind)
+        {
+	        return Task.Run(() => SellImpl(kind));
         }
 
         public void Pack(IEnumerable<Sandwich> package, string deliver)
         {
-            package = package.ToArray();
-            PopulateRack(package);
-            var summary = ComputeReport(package, deliver);
-            OnPacked(summary);
+	        var summary = PackImpl(package, deliver);
+	        OnPacked(summary);
+        }
+        
+        public Task PackAsync(IEnumerable<Sandwich> package, string deliver)
+        {
+	        return Task.Run(() =>
+	        {
+		        var summary = PackImpl(package, deliver);
+		        OnPacked(summary);
+	        });
         }
 
         protected virtual void OnPacked(PackingSummary summary)
@@ -63,7 +68,13 @@ namespace LevelUpCSharp.Retail
 
         private void PopulateRack(IEnumerable<Sandwich> package)
         {
-	        package.ForEach(p => _shelf.Add(p));
+	        package.ForEach(p =>
+	        {
+		        lock (_shelf)
+		        {
+			        _shelf.Add(p);
+		        }
+	        });
         }
 
         private static PackingSummary ComputeReport(IEnumerable<Sandwich> package, string deliver)
@@ -76,6 +87,32 @@ namespace LevelUpCSharp.Retail
 
 	        var summary = new PackingSummary(summaryPositions, deliver);
 	        return summary;
+        }
+
+        private Result<Sandwich> SellImpl(SandwichKind kind)
+        {
+	        Sandwich sandwich;
+	        lock (_shelf)
+	        {
+		        var dontHave = _shelf.Contains(kind);
+		        if (dontHave)
+		        {
+			        return Result<Sandwich>.Failed();
+		        }
+
+		        sandwich = _shelf.Get(kind);
+            }
+
+	        OnPurchase(DateTimeOffset.Now, sandwich);
+
+	        return sandwich.AsSuccess();
+        }
+
+        private PackingSummary PackImpl(IEnumerable<Sandwich> package, string deliver)
+        {
+	        package = package.ToArray();
+	        PopulateRack(package);
+	        return ComputeReport(package, deliver);
         }
     }
 }
