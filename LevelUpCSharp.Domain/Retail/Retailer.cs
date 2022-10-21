@@ -145,7 +145,9 @@ namespace LevelUpCSharp.Retail
         #region networking
         private TcpClient BuildConnection()
         {
-	        throw new NotImplementedException();
+	        TcpClient client = new TcpClient();
+	        client.Connect("localhost", 13000);
+	        return client;
         }
 
         private IEnumerable<Sandwich> ReadResponse(NetworkStream stream)
@@ -161,7 +163,8 @@ namespace LevelUpCSharp.Retail
 
         private void SendCommand(NetworkStream stream)
         {
-	        throw new NotFiniteNumberException();
+	        var data = System.Text.Encoding.ASCII.GetBytes("s");
+	        stream.Write(data, 0, data.Length);
         }
         #endregion
     }
