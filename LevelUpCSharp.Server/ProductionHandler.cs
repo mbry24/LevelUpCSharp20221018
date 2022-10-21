@@ -23,5 +23,17 @@ namespace LevelUpCSharp.Server
         {
             return _vendors.SelectMany(v => v.Buy()).ToArray();
         }
+
+        [Worker("sb")]
+        public IEnumerable<Sandwich> ZZZZ()
+        {
+	        return _vendors.SelectMany(v => v.Buy()).Where(s => s.Kind == SandwichKind.Beef).ToArray();
+        }
+
+        [Worker("sb10")]
+        public IEnumerable<Sandwich> Y()
+        {
+	        return _vendors.SelectMany(v => v.Buy()).Where(s => s.Kind == SandwichKind.Beef).Take(10).ToArray();
+        }
     }
 }

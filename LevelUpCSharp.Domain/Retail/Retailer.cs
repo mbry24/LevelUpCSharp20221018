@@ -163,7 +163,7 @@ namespace LevelUpCSharp.Retail
 
         private void SendCommand(NetworkStream stream)
         {
-	        var data = System.Text.Encoding.ASCII.GetBytes("s");
+	        var data = System.Text.Encoding.ASCII.GetBytes("v.s");
 	        stream.Write(data, 0, data.Length);
         }
         #endregion
